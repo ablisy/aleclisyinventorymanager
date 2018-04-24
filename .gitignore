@@ -33,3 +33,4 @@ sysinfo.txt
 *.apk
 *.unitypackage
 InventoryManager/Temp/
+InventoryManager/.vs/
