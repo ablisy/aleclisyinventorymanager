@@ -14,10 +14,20 @@ public class ItemManagerEditorWindow : EditorWindow
     {
         createCategory,
         showItems,
-        createItem
+        createItem,
+        defaultMenu
     }
     //Current state of the right panel.
-    RightPanelState rightPanelState = RightPanelState.showItems;
+    RightPanelState rightPanelState = RightPanelState.defaultMenu;
+
+    //Width for the left Panel
+    float leftPanelWidth = 0.0f;
+
+    //Width for the right Panel
+    float rightPanelWidth = 0.0f;
+
+    //set to true when creating something the user should have to save
+    bool creatingItem = false;
 
     #endregion
 
@@ -38,8 +48,51 @@ public class ItemManagerEditorWindow : EditorWindow
     //this is called every OnGUI frame
     void OnGUI()
     {
+        EditorGUILayout.BeginHorizontal("box");
+
         //Draw the left hand panel.
         DrawLeftHandCategoryPanel();
+
+        //Draw the Right hand panel.
+        //Logic handling what the right panel shows is inside this method
+        DrawRightHandPanelToplevel();
+
+        EditorGUILayout.EndHorizontal();
+    }
+
+    /// <summary>
+    /// This Draws the Left Hand Panel that contains the list of current categories and a button to create a new category
+    /// </summary>
+    void DrawLeftHandCategoryPanel()
+    {
+        EditorGUILayout.BeginVertical("box", GUILayout.Width(leftPanelWidth));
+
+        EditorGUILayout.LabelField("Categories");
+
+        //====DRAW THE LIST OF CATEGORIES THAT WE CURRENTLY HAVE====
+
+        //Button to create a category
+        if (GUILayout.Button("Create Category"))
+        {
+            if (!creatingItem)
+            {
+                //start category creation
+                rightPanelState = RightPanelState.createCategory;
+            }
+            else
+            {
+                //show 'Currently Editing Object' dialogue
+                ShowCurrentlyEditingItemDialogue();
+            }
+        }
+
+        EditorGUILayout.EndVertical();
+    }
+
+    void DrawRightHandPanelToplevel()
+    {
+        //Set the right panel general structure
+        EditorGUILayout.BeginVertical("box", GUILayout.Width(rightPanelWidth));
 
         //Cycle through what the Right Hand Panel should be showing at the current time
         switch (rightPanelState)
@@ -57,18 +110,12 @@ public class ItemManagerEditorWindow : EditorWindow
                 DrawRightHandCreateItemsPanel();
                 break;
             //Show "Please Select or Create a Category" Default Menu
-            default:
+            case (RightPanelState.defaultMenu):
                 DrawDefaultMenu();
                 break;
         }
-    }
 
-    /// <summary>
-    /// This Draws the Left Hand Panel that contains the list of current categories and a button to create a new category
-    /// </summary>
-    void DrawLeftHandCategoryPanel()
-    {
-
+        EditorGUILayout.EndVertical();
     }
 
     /// <summary>
@@ -100,6 +147,15 @@ public class ItemManagerEditorWindow : EditorWindow
     /// </summary>
     void DrawDefaultMenu()
     {
+        EditorGUILayout.LabelField("Select a category or create a new one.");
+    }
 
+    /// <summary>
+    /// This is called when the user starts an action that may make them lose data.
+    /// Yes will change the screen and lose data. No will just close the dialogue.
+    /// </summary>
+    void ShowCurrentlyEditingItemDialogue()
+    {
+        EditorUtility.DisplayDialog("Unsaved Data", "You currently have unsaved data. If you change menus you will lose any unsaved changes. Press 'Cancel' to return, press 'OK' to go to new menu.", "OK");
     }
 }
