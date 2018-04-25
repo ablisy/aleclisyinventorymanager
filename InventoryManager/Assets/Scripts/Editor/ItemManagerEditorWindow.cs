@@ -29,6 +29,15 @@ public class ItemManagerEditorWindow : EditorWindow
     //set to true when creating something the user should have to save
     bool creatingItem = false;
 
+    //This group is used to pass info onto the created category script
+    
+    string cName = "";
+    List<string> strings = new List<string>();
+    List<string> floats = new List<string>();
+    List<string> ints = new List<string>();
+    List<string> bools = new List<string>();
+    List<string> vector3s = new List<string>();
+
     #endregion
 
     #region PublicVariables
@@ -120,7 +129,63 @@ public class ItemManagerEditorWindow : EditorWindow
     /// </summary>
     void DrawRightHandCreateCategoryPanel()
     {
+        
+        //have the name be the only permanent option
+        cName = EditorGUILayout.TextField("Name: ", cName);
 
+        //==STRINGS==
+        //draw all of the strings that we've made
+        DrawAllListItems("String Name: ", strings);
+        //have a button to create new strings
+        DrawAddFieldButton("Add A String", strings);
+        
+        //==FLOATS==
+        //draw all of the floats
+        DrawAllListItems("Float Name: ", floats);
+        //have a button to add a float
+        DrawAddFieldButton("Add A Float", floats);
+
+        //==INTS==
+        //draw all of the ints
+        DrawAllListItems("Int Name: ", ints);
+        //have a button to add an int
+        DrawAddFieldButton("Add An Int", ints);
+
+        //==BOOLS==
+        //draw all of the bools
+        DrawAllListItems("Bool Name: ", bools);
+        //have a button to add a bool
+        DrawAddFieldButton("Add A bool", bools);
+
+        //==VECTOR 3S==
+        //draw all of the Vector3s
+        DrawAllListItems("Vector3 Name: ", vector3s);
+        //have a button to add a vector3
+        DrawAddFieldButton("Add A Vector3", vector3s);
+    }
+
+    /// <summary>
+    /// This creates an add button based on what label it receives
+    /// </summary>
+    void DrawAddFieldButton(string title, List<string> listToAdd)
+    {
+        if (GUILayout.Button(title))
+        {
+            listToAdd.Add("");
+        }
+    }
+
+    /// <summary>
+    /// Draws all items of the provided list, with the provided string as the title for the text field
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="listToDraw"></param>
+    void DrawAllListItems(string title, List<string> listToDraw)
+    {
+        for (int i = 0; i < listToDraw.Count; i++)
+        {
+            listToDraw[i] = EditorGUILayout.TextField(title, listToDraw[i]);
+        }
     }
 
     /// <summary>
