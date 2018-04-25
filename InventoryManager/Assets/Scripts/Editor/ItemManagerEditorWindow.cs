@@ -74,16 +74,7 @@ public class ItemManagerEditorWindow : EditorWindow
         //Button to create a category
         if (GUILayout.Button("Create Category"))
         {
-            if (!creatingItem)
-            {
-                //start category creation
-                rightPanelState = RightPanelState.createCategory;
-            }
-            else
-            {
-                //show 'Currently Editing Object' dialogue
-                ShowCurrentlyEditingItemDialogue();
-            }
+            SwitchRightPanel(RightPanelState.createCategory, true);
         }
 
         EditorGUILayout.EndVertical();
@@ -113,6 +104,12 @@ public class ItemManagerEditorWindow : EditorWindow
             case (RightPanelState.defaultMenu):
                 DrawDefaultMenu();
                 break;
+        }
+
+        //Set the menu back to default. !!!!Temp State while I'm getting category selection in!!!!
+        if (GUILayout.Button("Cancel"))
+        {
+            SwitchRightPanel(RightPanelState.defaultMenu, false);
         }
 
         EditorGUILayout.EndVertical();
@@ -151,11 +148,31 @@ public class ItemManagerEditorWindow : EditorWindow
     }
 
     /// <summary>
-    /// This is called when the user starts an action that may make them lose data.
-    /// Yes will change the screen and lose data. No will just close the dialogue.
+    /// This is the only place panels should be changed. This will call a dialog if user has unsaved data.
     /// </summary>
-    void ShowCurrentlyEditingItemDialogue()
+    /// <param name="newPanelState"></param>
+    /// <param name="Set true if new panel is sa creation menu."></param>
+    void SwitchRightPanel(RightPanelState newPanelState, bool creatingNewItem)
     {
-        EditorUtility.DisplayDialog("Unsaved Data", "You currently have unsaved data. If you change menus you will lose any unsaved changes. Press 'Cancel' to return, press 'OK' to go to new menu.", "OK");
+        //We're creating an Item. We need to let the user know that they'll lose data if they do switch the panel
+        if (creatingItem)
+        {
+            //open dialog to tell user they'll lose data if they continue
+            if (EditorUtility.DisplayDialog("Unsaved Data",
+            "You currently have unsaved data. If you change menus you will lose any unsaved changes. Press 'Cancel' to return, press 'OK' to go to new menu.",
+            "OK",
+            "Cancel"))
+            {
+                //User knows they're losing data. Switch the menu.
+                rightPanelState = newPanelState;
+                creatingItem = creatingNewItem;
+            }
+        }
+        else
+        {
+            //We're not Creating an item. We can switch right away.
+            rightPanelState = newPanelState;
+            creatingItem = creatingNewItem;
+        }
     }
 }
