@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
+using System.Linq;
 
 public class ItemManagerEditorWindow : EditorWindow
 {
@@ -79,7 +81,18 @@ public class ItemManagerEditorWindow : EditorWindow
         EditorGUILayout.LabelField("Categories");
 
         //====DRAW THE LIST OF CATEGORIES THAT WE CURRENTLY HAVE====
+        //Search through the Resources folder to get a list of categories
+        //Get the individual monoscripts inside of the folder, this way there's no cleanup
+        List<MonoScript> categoryNames = new List<MonoScript>();
+        categoryNames = Resources.LoadAll("Categories", typeof(MonoScript)).Cast<MonoScript>().ToList();
+        foreach (MonoScript script in categoryNames)
+        {
+            if (GUILayout.Button(script.name));
+            {
 
+            }
+        }
+        
         //Button to create a category
         if (GUILayout.Button("Create Category"))
         {
@@ -253,6 +266,7 @@ public class ItemManagerEditorWindow : EditorWindow
                 //User knows they're losing data. Switch the menu.
                 rightPanelState = newPanelState;
                 creatingItem = creatingNewItem;
+                ResetData();
             }
         }
         else
