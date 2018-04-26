@@ -129,7 +129,6 @@ public class ItemManagerEditorWindow : EditorWindow
     /// </summary>
     void DrawRightHandCreateCategoryPanel()
     {
-        
         //have the name be the only permanent option
         cName = EditorGUILayout.TextField("Name: ", cName);
 
@@ -162,6 +161,29 @@ public class ItemManagerEditorWindow : EditorWindow
         DrawAllListItems("Vector3 Name: ", vector3s);
         //have a button to add a vector3
         DrawAddFieldButton("Add A Vector3", vector3s);
+
+        //Save all current entered fields into a new Category
+        if (GUILayout.Button("Create Category"))
+        {
+            //Create the Category using the variables we've made
+            CreateCategory.CreateCategoryObject(cName, strings, floats, ints, bools, vector3s);
+
+            //Clear our global variables
+            ResetData();
+        }
+    }
+
+    /// <summary>
+    /// Resets all of the global variables we keep around to populate the category lists.
+    /// </summary>
+    void ResetData()
+    {
+        cName = "";
+        strings.Clear();
+        floats.Clear();
+        ints.Clear();
+        bools.Clear();
+        vector3s.Clear();
     }
 
     /// <summary>
