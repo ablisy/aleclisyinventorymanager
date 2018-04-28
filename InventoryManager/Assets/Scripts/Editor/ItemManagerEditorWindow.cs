@@ -102,6 +102,9 @@ public class ItemManagerEditorWindow : EditorWindow
         EditorGUILayout.EndVertical();
     }
 
+    /// <summary>
+    /// This is where we decide what to draw in our right hand panel. This is where general buttons like 'cancel' go as well
+    /// </summary>
     void DrawRightHandPanelToplevel()
     {
         //Set the right panel general structure
