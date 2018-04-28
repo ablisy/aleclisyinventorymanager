@@ -29,6 +29,10 @@ public static class CreateCategory
         //Remove whitespace and minus
         cName = cName.Replace(" ", "_");
         cName = cName.Replace("-", "_");
+
+        //create the folder for the category
+        AssetDatabase.CreateFolder("Assets/Resources/Categories", cName + "Items");
+
         //Create the path that our category script will live
         string copyPath = "Assets/Resources/Categories/" + cName + ".cs";
         Debug.Log("Creating Category File: " + cName);
@@ -44,8 +48,7 @@ public static class CreateCategory
                 outfile.WriteLine("public class " + cName + " : MonoBehaviour");
                 outfile.WriteLine("{");
                 outfile.WriteLine("");
-                    
-                    
+                
                 //write out our public strings
                 foreach (string uString in strings)
                 {

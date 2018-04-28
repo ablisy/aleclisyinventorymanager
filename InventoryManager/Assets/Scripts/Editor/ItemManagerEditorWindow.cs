@@ -31,8 +31,10 @@ public class ItemManagerEditorWindow : EditorWindow
     //set to true when creating something the user should have to save
     bool creatingItem = false;
 
-    //This group is used to pass info onto the created category script
-    
+    //this is to hold the current category that we're showing
+    MonoScript currentCategory;
+
+    //This group is used to pass info onto the created category script    
     string cName = "";
     List<string> strings = new List<string>();
     List<string> floats = new List<string>();
@@ -87,9 +89,13 @@ public class ItemManagerEditorWindow : EditorWindow
         categoryNames = Resources.LoadAll("Categories", typeof(MonoScript)).Cast<MonoScript>().ToList();
         foreach (MonoScript script in categoryNames)
         {
-            if (GUILayout.Button(script.name));
+            if (GUILayout.Button(script.name))
             {
+                //maintain a reference to the dictionary that we'll be working with
+                currentCategory = script;
 
+                //switch the right panel over because we're not creating a new item yet
+                SwitchRightPanel(RightPanelState.showItems, false);
             }
         }
         
@@ -231,7 +237,20 @@ public class ItemManagerEditorWindow : EditorWindow
     /// </summary>
     void DrawRightHandShowItemsPanel()
     {
+        //get our script and use its name for our panel title
+        EditorGUILayout.LabelField(currentCategory.name);
 
+        //Draw all of the item scripts that are in our category folder
+        List<MonoScript> itemNames = new List<MonoScript>();
+        itemNames = Resources.LoadAll("Categories/" + currentCategory.name + "Items", typeof(MonoScript)).Cast<MonoScript>().ToList();
+
+        foreach (MonoScript script in itemNames)
+        {
+            if (GUILayout.Button(script.name))
+            {
+                Debug.Log(script.text);
+            }
+        }
     }
 
     /// <summary>
@@ -254,7 +273,7 @@ public class ItemManagerEditorWindow : EditorWindow
     /// This is the only place panels should be changed. This will call a dialog if user has unsaved data.
     /// </summary>
     /// <param name="newPanelState"></param>
-    /// <param name="Set true if new panel is sa creation menu."></param>
+    /// <param name="Set true if new panel is a creation menu."></param>
     void SwitchRightPanel(RightPanelState newPanelState, bool creatingNewItem)
     {
         //We're creating an Item. We need to let the user know that they'll lose data if they do switch the panel
