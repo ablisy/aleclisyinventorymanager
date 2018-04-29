@@ -22,10 +22,16 @@ public static class CreateCategory
     /// <param name="ints"></param>
     /// <param name="bools"></param>
     /// <param name="vector3s"></param>
-    public static void CreateCategoryObject(string cName, List<string> strings, List<string> floats, List<string> ints, List<string> bools, List<string> vector3s)
+    public static void CreateCategoryObject(CategoryDataHolder categoryDataHolder)
     {
+        //Get our lists of keys from the dictionaries. These become our variable names
+        string cName = categoryDataHolder.cName;
+        List<string> strings = new List<string>(categoryDataHolder.categoryStrings.Keys);
+        List<string> floats = new List<string>(categoryDataHolder.categoryFloats.Keys);
+        List<string> ints = new List<string>(categoryDataHolder.categoryInts.Keys);
+        List<string> bools = new List<string>(categoryDataHolder.categoryBools.Keys);
+        List<string> vector3s = new List<string>(categoryDataHolder.categoryVector3s.Keys);
 
-        
         //Remove whitespace and minus
         cName = cName.Replace(" ", "_");
         cName = cName.Replace("-", "_");
