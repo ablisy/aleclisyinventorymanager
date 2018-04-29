@@ -46,6 +46,9 @@ public class ItemManagerEditorWindow : EditorWindow
     List<string> bools = new List<string>();
     List<string> vector3s = new List<string>();
 
+    //current category data
+    CategoryDataHolder currentCategoryDataHolder;
+
     #endregion
 
     #region PublicVariables
@@ -191,8 +194,12 @@ public class ItemManagerEditorWindow : EditorWindow
         //Save all current entered fields into a new Category
         if (GUILayout.Button("Create Category"))
         {
+            currentCategoryDataHolder = new CategoryDataHolder();
+
+            currentCategoryDataHolder.PopulateDataStructure(cName, strings, floats, ints, bools, vector3s);
+
             //Create the Category using the variables we've made
-            CreateCategory.CreateCategoryObject(cName, strings, floats, ints, bools, vector3s);
+            CreateCategory.CreateCategoryObject(currentCategoryDataHolder);
 
             //Clear our global variables
             ResetData();
