@@ -34,6 +34,10 @@ public class ItemManagerEditorWindow : EditorWindow
     //this is to hold the current category that we're showing
     MonoScript currentCategory;
 
+    //Current Items dictionary. This is used to pass info over from the category to the 'create item' function.
+    //it's needed to determine what fields we should be drawing in our create item panel
+    Dictionary<string, string> currentCategoryDataSet = new Dictionary<string, string>();
+
     //This group is used to pass info onto the created category script    
     string cName = "";
     List<string> strings = new List<string>();
@@ -251,13 +255,52 @@ public class ItemManagerEditorWindow : EditorWindow
                 Debug.Log(script.text);
             }
         }
+
+        //for creating items, we need to switch over to the new right panel, while determining what we should be showing in the panel
+        if (GUILayout.Button("Create Item"))
+        {
+            string rawCategoryText = currentCategory.text;
+
+            currentCategoryDataSet = ParseCategoryScripts.GetParsedCategoryDictionary(rawCategoryText);
+
+            //go to the create item right panel window
+            SwitchRightPanel(RightPanelState.createItem, true);
+        }
     }
 
     /// <summary>
     /// This Draws the right hand panel when the user is creating an item.
+    /// The currentCategoryDataSet is populated before this is called. I don't think it's ideal to make this rely on a global variable but it's the most flexible way.
     /// </summary>
     void DrawRightHandCreateItemsPanel()
     {
+        string iName;
+        //create another dictionary of string, string then pass that to created bool
+        //because we need to pass the actual name and value, we need to pass name, type, and value to the next script. How do we do that?
+
+        //create a new script type, or whatevery it's called to pass it. What I wrote for front row objects
+
+        //this should be parsed out based on what the value of the key is. based on that we give it a certain input field
+        foreach (KeyValuePair<string, string> pair in currentCategoryDataSet)
+        {
+            //!!!!!!!This should be done by cycling through the available variable types, that would be more flexible
+            //!!!!!!!although the way to add more variables would just be adding a few more lines of code
+            //we draw out an input field based on what the value of the KVP is.
+            //the key is going to be the variable name.
+            switch (pair.Value)
+            {
+                case ("string"):
+                    break;
+                case ("float"):
+                    break;
+                case ("int"):
+                    break;
+                case ("bool"):
+                    break;
+                case ("Vector3"):
+                    break;
+            }
+        }
 
     }
 
