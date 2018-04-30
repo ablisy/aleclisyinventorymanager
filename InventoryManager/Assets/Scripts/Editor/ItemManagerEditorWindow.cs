@@ -45,15 +45,7 @@ public class ItemManagerEditorWindow : EditorWindow
     List<string> ints = new List<string>();
     List<string> bools = new List<string>();
     List<string> vector3s = new List<string>();
-
-    //This group is used to maintain references to the data types while we type them into the editor window
-    Dictionary<string, string> stringsDictionaryList = new Dictionary<string, string>();
-    Dictionary<string, float> floatsDictionaryList = new Dictionary<string, float>();
-    Dictionary<string, int> intsDictionaryList = new Dictionary<string, int>();
-    Dictionary<string, bool> boolsDictionaryList = new Dictionary<string, bool>();
-    Dictionary<string, Vector3> vector3sDictionaryList = new Dictionary<string, Vector3>();
-
-
+    //!!!ADD ADDITIONAL VARIABLES HERE!!!
 
     //current category data
     CategoryDataHolder currentCategoryDataHolder;
@@ -111,14 +103,14 @@ public class ItemManagerEditorWindow : EditorWindow
                 currentCategory = script;
 
                 //switch the right panel over because we're not creating a new item yet
-                SwitchRightPanel(RightPanelState.showItems, false);
+                SwitchRightPanel(RightPanelState.showItems, false, false);
             }
         }
         
         //Button to create a category
         if (GUILayout.Button("Create Category"))
         {
-            SwitchRightPanel(RightPanelState.createCategory, true);
+            SwitchRightPanel(RightPanelState.createCategory, true, false);
         }
 
         EditorGUILayout.EndVertical();
@@ -156,7 +148,7 @@ public class ItemManagerEditorWindow : EditorWindow
         //Set the menu back to default. !!!!Temp State while I'm getting category selection in!!!!
         if (GUILayout.Button("Cancel"))
         {
-            SwitchRightPanel(RightPanelState.defaultMenu, false);
+            SwitchRightPanel(RightPanelState.defaultMenu, false, false);
         }
 
         EditorGUILayout.EndVertical();
@@ -199,6 +191,7 @@ public class ItemManagerEditorWindow : EditorWindow
         DrawAllListItems("Vector3 Name: ", vector3s);
         //have a button to add a vector3
         DrawAddFieldButton("Add A Vector3", vector3s);
+        //!!!ADD ADDITIONAL VARIABLES HERE!!!
 
         //Save all current entered fields into a new Category
         if (GUILayout.Button("Create Category"))
@@ -206,6 +199,7 @@ public class ItemManagerEditorWindow : EditorWindow
             currentCategoryDataHolder = new CategoryDataHolder();
 
             currentCategoryDataHolder.PopulateDataStructure(cName, strings, floats, ints, bools, vector3s);
+            //!!!ADD ADDITIONAL VARIABLES HERE!!!
 
             //Create the Category using the variables we've made
             CreateCategory.CreateCategoryObject(currentCategoryDataHolder);
@@ -226,6 +220,7 @@ public class ItemManagerEditorWindow : EditorWindow
         ints.Clear();
         bools.Clear();
         vector3s.Clear();
+        //!!!ADD ADDITIONAL VARIABLES HERE!!!
     }
 
     /// <summary>
@@ -262,12 +257,13 @@ public class ItemManagerEditorWindow : EditorWindow
 
         //Draw all of the item scripts that are in our category folder
         List<MonoScript> itemNames = new List<MonoScript>();
-        itemNames = Resources.LoadAll("Categories/" + currentCategory.name + "Items", typeof(MonoScript)).Cast<MonoScript>().ToList();
+        itemNames = Resources.LoadAll(currentCategory.name + "Items", typeof(MonoScript)).Cast<MonoScript>().ToList();
 
         foreach (MonoScript script in itemNames)
         {
             if (GUILayout.Button(script.name))
             {
+                //Display the item options
                 Debug.Log(script.text);
             }
         }
@@ -284,7 +280,7 @@ public class ItemManagerEditorWindow : EditorWindow
             PopulateCategoryDictionaries();
 
             //go to the create item right panel window
-            SwitchRightPanel(RightPanelState.createItem, true);
+            SwitchRightPanel(RightPanelState.createItem, true, false);
         }
     }
 
@@ -313,6 +309,7 @@ public class ItemManagerEditorWindow : EditorWindow
                 case ("Vector3"):
                     currentCategoryDataHolder.categoryVector3s.Add(pair.Key, Vector3.zero);
                     break;
+                    //!!!ADD ADDITIONAL VARIABLES HERE!!!
             }
         }
     }
@@ -352,12 +349,13 @@ public class ItemManagerEditorWindow : EditorWindow
 
         //==VECTOR3S==
         DrawCategoryDictionary(currentCategoryDataHolder.categoryVector3s);
+        //!!!ADD ADDITIONAL VARIABLES HERE!!!
 
         if (GUILayout.Button("CreateTheItem"))
         {
             CreateItem.CreateItemScript(cName, currentCategoryDataHolder, currentCategory.name);
 
-            SwitchRightPanel(RightPanelState.showItems, false);
+            SwitchRightPanel(RightPanelState.showItems, false, true);
         }
     }
 
@@ -420,6 +418,8 @@ public class ItemManagerEditorWindow : EditorWindow
             dictionary[key] = EditorGUILayout.Vector3Field(key, dictionary[key]);
         }
     }
+    //!!!ADD ADDITIONAL VARIABLES HERE!!!
+
 
     /// <summary>
     /// This is drawn when nothing is selected
@@ -434,8 +434,11 @@ public class ItemManagerEditorWindow : EditorWindow
     /// </summary>
     /// <param name="newPanelState"></param>
     /// <param name="Set true if new panel is a creation menu."></param>
-    void SwitchRightPanel(RightPanelState newPanelState, bool creatingNewItem)
+    void SwitchRightPanel(RightPanelState newPanelState, bool creatingNewItem, bool forceChangeWithoutSaveDialogue)
     {
+        //if forceChangeWithoutSaveDialogue then we should change the screen without using the save dialogue
+        creatingItem = false;
+
         //We're creating an Item. We need to let the user know that they'll lose data if they do switch the panel
         if (creatingItem)
         {

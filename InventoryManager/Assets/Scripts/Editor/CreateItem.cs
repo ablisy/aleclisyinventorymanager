@@ -18,7 +18,7 @@ public static class CreateItem
     public static void CreateItemScript(string iName, CategoryDataHolder categoryDataHolder, string categoryName)
     {
         //create the path that our item script will live
-        string copyPath = "Assets/Resources/Categories/" + categoryName + "Items/" + iName + ".cs";
+        string copyPath = "Assets/Resources/" + categoryName + "Items/" + iName + ".cs";
         //do not overwrite
         if (File.Exists(copyPath) == false)
         {
