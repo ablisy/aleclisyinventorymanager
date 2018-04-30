@@ -46,5 +46,4 @@ public class CategoryDataHolder
             categoryVector3s.Add(vector3Name, Vector3.zero);
         }
     }
-
 }

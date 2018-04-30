@@ -46,6 +46,15 @@ public class ItemManagerEditorWindow : EditorWindow
     List<string> bools = new List<string>();
     List<string> vector3s = new List<string>();
 
+    //This group is used to maintain references to the data types while we type them into the editor window
+    Dictionary<string, string> stringsDictionaryList = new Dictionary<string, string>();
+    Dictionary<string, float> floatsDictionaryList = new Dictionary<string, float>();
+    Dictionary<string, int> intsDictionaryList = new Dictionary<string, int>();
+    Dictionary<string, bool> boolsDictionaryList = new Dictionary<string, bool>();
+    Dictionary<string, Vector3> vector3sDictionaryList = new Dictionary<string, Vector3>();
+
+
+
     //current category data
     CategoryDataHolder currentCategoryDataHolder;
 
@@ -270,9 +279,47 @@ public class ItemManagerEditorWindow : EditorWindow
 
             currentCategoryDataSet = ParseCategoryScripts.GetParsedCategoryDictionary(rawCategoryText);
 
+            currentCategoryDataHolder = new CategoryDataHolder();
+
+            PopulateCategoryDictionaries();
+
             //go to the create item right panel window
             SwitchRightPanel(RightPanelState.createItem, true);
         }
+    }
+
+    /// <summary>
+    /// This is called to populate our currentCategoryDataHolder when creating a new item. This is used to create what fields our new item is going to need.
+    /// </summary>
+    void PopulateCategoryDictionaries()
+    {
+        foreach (KeyValuePair<string, string> pair in currentCategoryDataSet)
+        {
+            switch (pair.Value)
+            {
+                case ("string"):
+                    //I can use this to draw things, but to pass it I should be creating a CategoryDataHolder
+                    currentCategoryDataHolder.categoryStrings.Add(pair.Key, "");
+                    break;
+                case ("float"):
+                    currentCategoryDataHolder.categoryFloats.Add(pair.Key, 0.0f);
+                    break;
+                case ("int"):
+                    currentCategoryDataHolder.categoryInts.Add(pair.Key, 0);
+                    break;
+                case ("bool"):
+                    currentCategoryDataHolder.categoryBools.Add(pair.Key, false);
+                    break;
+                case ("Vector3"):
+                    currentCategoryDataHolder.categoryVector3s.Add(pair.Key, Vector3.zero);
+                    break;
+            }
+        }
+    }
+
+    void ClearGlobalCategoryDictionaries()
+    {
+
     }
 
     /// <summary>
@@ -281,34 +328,97 @@ public class ItemManagerEditorWindow : EditorWindow
     /// </summary>
     void DrawRightHandCreateItemsPanel()
     {
-        string iName;
+
         //create another dictionary of string, string then pass that to created bool
         //because we need to pass the actual name and value, we need to pass name, type, and value to the next script. How do we do that?
 
         //create a new script type, or whatevery it's called to pass it. What I wrote for front row objects
 
-        //this should be parsed out based on what the value of the key is. based on that we give it a certain input field
-        foreach (KeyValuePair<string, string> pair in currentCategoryDataSet)
-        {
-            //!!!!!!!This should be done by cycling through the available variable types, that would be more flexible
-            //!!!!!!!although the way to add more variables would just be adding a few more lines of code
-            //we draw out an input field based on what the value of the KVP is.
-            //the key is going to be the variable name.
-            switch (pair.Value)
-            {
-                case ("string"):
-                    break;
-                case ("float"):
-                    break;
-                case ("int"):
-                    break;
-                case ("bool"):
-                    break;
-                case ("Vector3"):
-                    break;
-            }
-        }
+        cName = EditorGUILayout.TextField("Item Name: ", cName);
 
+        //have a loop to draw every variable we might have in the categories
+
+        //==STRINGS==
+        DrawCategoryDictionary(currentCategoryDataHolder.categoryStrings);
+
+        //==FLOATS==
+        DrawCategoryDictionary(currentCategoryDataHolder.categoryFloats);
+
+        //==INTS==
+        DrawCategoryDictionary(currentCategoryDataHolder.categoryInts);
+
+        //==BOOLS==
+        DrawCategoryDictionary(currentCategoryDataHolder.categoryBools);
+
+        //==VECTOR3S==
+        DrawCategoryDictionary(currentCategoryDataHolder.categoryVector3s);
+
+        if (GUILayout.Button("CreateTheItem"))
+        {
+            CreateItem.CreateItemScript(cName, currentCategoryDataHolder, currentCategory.name);
+
+            SwitchRightPanel(RightPanelState.showItems, false);
+        }
+    }
+
+    void DrawCategoryDictionary(Dictionary<string, string> passedDictionary)
+    {
+        var dictionary = new Dictionary<string, string>();
+        //dictionary = currentCategoryDataHolder.categoryStrings;
+        dictionary = passedDictionary;
+        var keys = new List<string>(dictionary.Keys);
+        foreach (string key in keys)
+        {
+            dictionary[key] = EditorGUILayout.TextField(key, dictionary[key]);
+        }
+    }
+
+    void DrawCategoryDictionary(Dictionary<string, float> passedDictionary)
+    {
+        var dictionary = new Dictionary<string, float>();
+        //dictionary = currentCategoryDataHolder.categoryStrings;
+        dictionary = passedDictionary;
+        var keys = new List<string>(dictionary.Keys);
+        foreach (string key in keys)
+        {
+            dictionary[key] = EditorGUILayout.FloatField(key, dictionary[key]);
+        }
+    }
+
+    void DrawCategoryDictionary(Dictionary<string, int> passedDictionary)
+    {
+        var dictionary = new Dictionary<string, int>();
+        //dictionary = currentCategoryDataHolder.categoryStrings;
+        dictionary = passedDictionary;
+        var keys = new List<string>(dictionary.Keys);
+        foreach (string key in keys)
+        {
+            dictionary[key] = EditorGUILayout.IntField(key, dictionary[key]);
+        }
+    }
+
+    void DrawCategoryDictionary(Dictionary<string, bool> passedDictionary)
+    {
+        var dictionary = new Dictionary<string, bool>();
+        //dictionary = currentCategoryDataHolder.categoryStrings;
+        dictionary = passedDictionary;
+        var keys = new List<string>(dictionary.Keys);
+        foreach (string key in keys)
+        {
+            dictionary[key] = EditorGUILayout.Toggle(key, dictionary[key]);
+        }
+    }
+
+    void DrawCategoryDictionary(Dictionary<string, Vector3> passedDictionary)
+    {
+        var dictionary = new Dictionary<string, Vector3>();
+        //dictionary = currentCategoryDataHolder.categoryStrings;
+        dictionary = passedDictionary;
+        var keys = new List<string>(dictionary.Keys);
+        foreach (string key in keys)
+        {
+            dictionary[key] = EditorGUILayout.Vector3Field(key, dictionary[key]);
+        }
     }
 
     /// <summary>
