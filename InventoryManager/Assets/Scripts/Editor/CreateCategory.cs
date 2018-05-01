@@ -37,7 +37,7 @@ public static class CreateCategory
         cName = cName.Replace("-", "_");
 
         //create the folder for the category
-        AssetDatabase.CreateFolder("Assets/Resources/Categories", cName + "Items");
+        AssetDatabase.CreateFolder("Assets/Resources", cName + "Items");
 
         //Create the path that our category script will live
         string copyPath = "Assets/Resources/Categories/" + cName + ".cs";

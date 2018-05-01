@@ -15,7 +15,7 @@ public class CategoryDataHolder
     public Dictionary<string, bool> categoryBools = new Dictionary<string, bool>();
 
     public Dictionary<string, Vector3> categoryVector3s = new Dictionary<string, Vector3>();
-
+    //!!!ADD ADDITIONAL VARIABLES HERE!!!
 
     public void PopulateDataStructure(string newName, List<string> stringNames, List<string> floatNames, List<string> intNames, List<string> boolNames, List<string> vector3Names)
     {
@@ -45,6 +45,6 @@ public class CategoryDataHolder
         {
             categoryVector3s.Add(vector3Name, Vector3.zero);
         }
+        //!!!ADD ADDITIONAL VARIABLES HERE!!!
     }
-
 }
