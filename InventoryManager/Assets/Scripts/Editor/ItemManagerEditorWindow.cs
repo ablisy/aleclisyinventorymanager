@@ -7,7 +7,7 @@ using System.Linq;
 
 public class ItemManagerEditorWindow : EditorWindow
 {
-    public const string versionNumber = "0.01";
+    public const string versionNumber = "0.1";
 
     #region PrivateVariables
 
