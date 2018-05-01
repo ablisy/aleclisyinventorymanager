@@ -19,12 +19,12 @@ Note: The way to add more variables is not ideal right now. You will have to add
 to add more variable types such as Vector2.
 I would like to make the add process easier in the future, but for now it works and needed areas are marked.
 
-Things left to do:
+<b><i>Things left to do:</i></b>
 
-Add the ability to create a prefab for each item.
+<b>Add the ability to create a prefab for each item.</b>
 
-Clean up the backend so that it is easier to add new categories.
+<b>Clean up the backend so that it is easier to add new categories.</b>
 
-Make the Window prettier (this often takes a little while so I haven't done it here)
+<b>Make the Window prettier (this often takes a little while so I haven't done it here)</b>
 
-Scrub the inputs so no "Illegal" entries can be made.
+<b>Scrub the inputs so no "Illegal" entries can be made.</b>
