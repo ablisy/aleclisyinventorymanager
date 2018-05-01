@@ -50,6 +50,9 @@ public class ItemManagerEditorWindow : EditorWindow
     //current category data
     CategoryDataHolder currentCategoryDataHolder;
 
+    //spacing between buttons/modes and things
+    float spaceBetweenButtons = 5f;
+
     #endregion
 
     #region PublicVariables
@@ -97,6 +100,8 @@ public class ItemManagerEditorWindow : EditorWindow
         categoryNames = Resources.LoadAll("Categories", typeof(MonoScript)).Cast<MonoScript>().ToList();
         foreach (MonoScript script in categoryNames)
         {
+            GUILayout.Space(spaceBetweenButtons);
+
             if (GUILayout.Button(script.name))
             {
                 //maintain a reference to the dictionary that we'll be working with
@@ -106,7 +111,9 @@ public class ItemManagerEditorWindow : EditorWindow
                 SwitchRightPanel(RightPanelState.showItems, false, false);
             }
         }
-        
+
+        GUILayout.Space(spaceBetweenButtons);
+
         //Button to create a category
         if (GUILayout.Button("Create Category"))
         {
@@ -145,6 +152,8 @@ public class ItemManagerEditorWindow : EditorWindow
                 break;
         }
 
+        GUILayout.Space(spaceBetweenButtons);
+
         //Set the menu back to default. !!!!Temp State while I'm getting category selection in!!!!
         if (GUILayout.Button("Cancel"))
         {
@@ -167,7 +176,7 @@ public class ItemManagerEditorWindow : EditorWindow
         DrawAllListItems("String Name: ", strings);
         //have a button to create new strings
         DrawAddFieldButton("Add A String", strings);
-        
+
         //==FLOATS==
         //draw all of the floats
         DrawAllListItems("Float Name: ", floats);
@@ -192,6 +201,8 @@ public class ItemManagerEditorWindow : EditorWindow
         //have a button to add a vector3
         DrawAddFieldButton("Add A Vector3", vector3s);
         //!!!ADD ADDITIONAL VARIABLES HERE!!!
+
+        GUILayout.Space(spaceBetweenButtons);
 
         //Save all current entered fields into a new Category
         if (GUILayout.Button("Create Category"))
@@ -228,6 +239,8 @@ public class ItemManagerEditorWindow : EditorWindow
     /// </summary>
     void DrawAddFieldButton(string title, List<string> listToAdd)
     {
+        GUILayout.Space(spaceBetweenButtons);
+
         if (GUILayout.Button(title))
         {
             listToAdd.Add("");
@@ -261,12 +274,16 @@ public class ItemManagerEditorWindow : EditorWindow
 
         foreach (MonoScript script in itemNames)
         {
+            GUILayout.Space(spaceBetweenButtons);
+
             if (GUILayout.Button(script.name))
             {
                 //Display the item options
                 Debug.Log(script.text);
             }
         }
+
+        GUILayout.Space(spaceBetweenButtons);
 
         //for creating items, we need to switch over to the new right panel, while determining what we should be showing in the panel
         if (GUILayout.Button("Create Item"))
@@ -361,6 +378,8 @@ public class ItemManagerEditorWindow : EditorWindow
 
     void DrawCategoryDictionary(Dictionary<string, string> passedDictionary)
     {
+        GUILayout.Space(spaceBetweenButtons);
+
         var dictionary = new Dictionary<string, string>();
         //dictionary = currentCategoryDataHolder.categoryStrings;
         dictionary = passedDictionary;
@@ -373,6 +392,8 @@ public class ItemManagerEditorWindow : EditorWindow
 
     void DrawCategoryDictionary(Dictionary<string, float> passedDictionary)
     {
+        GUILayout.Space(spaceBetweenButtons);
+
         var dictionary = new Dictionary<string, float>();
         //dictionary = currentCategoryDataHolder.categoryStrings;
         dictionary = passedDictionary;
@@ -385,6 +406,8 @@ public class ItemManagerEditorWindow : EditorWindow
 
     void DrawCategoryDictionary(Dictionary<string, int> passedDictionary)
     {
+        GUILayout.Space(spaceBetweenButtons);
+
         var dictionary = new Dictionary<string, int>();
         //dictionary = currentCategoryDataHolder.categoryStrings;
         dictionary = passedDictionary;
@@ -397,6 +420,8 @@ public class ItemManagerEditorWindow : EditorWindow
 
     void DrawCategoryDictionary(Dictionary<string, bool> passedDictionary)
     {
+        GUILayout.Space(spaceBetweenButtons);
+
         var dictionary = new Dictionary<string, bool>();
         //dictionary = currentCategoryDataHolder.categoryStrings;
         dictionary = passedDictionary;
@@ -409,6 +434,8 @@ public class ItemManagerEditorWindow : EditorWindow
 
     void DrawCategoryDictionary(Dictionary<string, Vector3> passedDictionary)
     {
+        GUILayout.Space(spaceBetweenButtons);
+
         var dictionary = new Dictionary<string, Vector3>();
         //dictionary = currentCategoryDataHolder.categoryStrings;
         dictionary = passedDictionary;
