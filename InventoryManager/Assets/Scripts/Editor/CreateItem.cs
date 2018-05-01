@@ -7,6 +7,7 @@ using UnityEditor;
 /// <summary>
 /// This creates a .cs script that inherits from the category that has been selected in the ItemManagerEditorWindow.
 /// This is called by ItemManagerEditorWindow.
+/// https://answers.unity.com/questions/12599/editor-script-need-to-create-class-script-automati.html
 /// </summary>
 public static class CreateItem
 {
@@ -17,6 +18,10 @@ public static class CreateItem
     /// <param name="categoryDataHolder"></param>
     public static void CreateItemScript(string iName, CategoryDataHolder categoryDataHolder, string categoryName)
     {
+        //remove whitespace and minus
+        iName = iName.Replace(" ", "_");
+        iName = iName.Replace("-", "_");
+
         //create the path that our item script will live
         string copyPath = "Assets/Resources/" + categoryName + "Items/" + iName + ".cs";
         //do not overwrite
@@ -84,6 +89,8 @@ public static class CreateItem
                 {
                     outfile.WriteLine("        " + kvp.Key + " = " + "new Vector3(" + kvp.Value.x + "f, " + kvp.Value.y + "f, " + kvp.Value.z + "f);");
                 }
+
+                //!!!ADD ADDITIONAL VARIABLES HERE!!!
 
                 outfile.WriteLine("");
                 outfile.WriteLine("    }");

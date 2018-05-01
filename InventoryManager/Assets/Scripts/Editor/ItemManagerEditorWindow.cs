@@ -231,6 +231,7 @@ public class ItemManagerEditorWindow : EditorWindow
         ints.Clear();
         bools.Clear();
         vector3s.Clear();
+        currentCategoryDataSet.Clear();
         //!!!ADD ADDITIONAL VARIABLES HERE!!!
     }
 
@@ -331,22 +332,12 @@ public class ItemManagerEditorWindow : EditorWindow
         }
     }
 
-    void ClearGlobalCategoryDictionaries()
-    {
-
-    }
-
     /// <summary>
     /// This Draws the right hand panel when the user is creating an item.
     /// The currentCategoryDataSet is populated before this is called. I don't think it's ideal to make this rely on a global variable but it's the most flexible way.
     /// </summary>
     void DrawRightHandCreateItemsPanel()
     {
-
-        //create another dictionary of string, string then pass that to created bool
-        //because we need to pass the actual name and value, we need to pass name, type, and value to the next script. How do we do that?
-
-        //create a new script type, or whatevery it's called to pass it. What I wrote for front row objects
 
         cName = EditorGUILayout.TextField("Item Name: ", cName);
 
@@ -376,6 +367,10 @@ public class ItemManagerEditorWindow : EditorWindow
         }
     }
 
+    /// <summary>
+    /// Draw each category for a string field.
+    /// </summary>
+    /// <param name="passedDictionary"></param>
     void DrawCategoryDictionary(Dictionary<string, string> passedDictionary)
     {
         GUILayout.Space(spaceBetweenButtons);
@@ -390,6 +385,10 @@ public class ItemManagerEditorWindow : EditorWindow
         }
     }
 
+    /// <summary>
+    /// Draw each category for a float field.
+    /// </summary>
+    /// <param name="passedDictionary"></param>
     void DrawCategoryDictionary(Dictionary<string, float> passedDictionary)
     {
         GUILayout.Space(spaceBetweenButtons);
@@ -404,6 +403,10 @@ public class ItemManagerEditorWindow : EditorWindow
         }
     }
 
+    /// <summary>
+    /// Draw each category for an int field.
+    /// </summary>
+    /// <param name="passedDictionary"></param>
     void DrawCategoryDictionary(Dictionary<string, int> passedDictionary)
     {
         GUILayout.Space(spaceBetweenButtons);
@@ -418,6 +421,10 @@ public class ItemManagerEditorWindow : EditorWindow
         }
     }
 
+    /// <summary>
+    /// Draw each category for a bool field.
+    /// </summary>
+    /// <param name="passedDictionary"></param>
     void DrawCategoryDictionary(Dictionary<string, bool> passedDictionary)
     {
         GUILayout.Space(spaceBetweenButtons);
@@ -432,6 +439,10 @@ public class ItemManagerEditorWindow : EditorWindow
         }
     }
 
+    /// <summary>
+    /// Draw each category for a Vector3 field.
+    /// </summary>
+    /// <param name="passedDictionary"></param>
     void DrawCategoryDictionary(Dictionary<string, Vector3> passedDictionary)
     {
         GUILayout.Space(spaceBetweenButtons);

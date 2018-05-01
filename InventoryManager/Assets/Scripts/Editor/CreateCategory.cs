@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
-using System.Text;
 using UnityEditor;
 
 /// <summary>
@@ -14,14 +13,9 @@ using UnityEditor;
 public static class CreateCategory
 {
     /// <summary>
-    /// Create Category with chosen variables as roots.
+    /// Create Category script with the chosen variables.
     /// </summary>
-    /// <param name="cName"></param>
-    /// <param name="strings"></param>
-    /// <param name="floats"></param>
-    /// <param name="ints"></param>
-    /// <param name="bools"></param>
-    /// <param name="vector3s"></param>
+    /// <param name="categoryDataHolder"></param>
     public static void CreateCategoryObject(CategoryDataHolder categoryDataHolder)
     {
         //Get our lists of keys from the dictionaries. These become our variable names
@@ -93,6 +87,8 @@ public static class CreateCategory
                 {
                     outfile.WriteLine("    public Vector3 " + uVector3 + ";");
                 }
+
+                //!!!ADD ADDITIONAL VARIABLES HERE!!!
 
                 outfile.WriteLine("");
 
