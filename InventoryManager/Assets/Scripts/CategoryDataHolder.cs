@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This holds data for categories that we are currently editing/using
+/// </summary>
 public class CategoryDataHolder
 {
     public string cName;
@@ -17,6 +20,16 @@ public class CategoryDataHolder
     public Dictionary<string, Vector3> categoryVector3s = new Dictionary<string, Vector3>();
     //!!!ADD ADDITIONAL VARIABLES HERE!!!
 
+    /// <summary>
+    /// Populate our script with all of the settings of a category.
+    /// I don't like that this just has various lists of strings. Can be improved upon in the future.
+    /// </summary>
+    /// <param name="newName"></param>
+    /// <param name="stringNames"></param>
+    /// <param name="floatNames"></param>
+    /// <param name="intNames"></param>
+    /// <param name="boolNames"></param>
+    /// <param name="vector3Names"></param>
     public void PopulateDataStructure(string newName, List<string> stringNames, List<string> floatNames, List<string> intNames, List<string> boolNames, List<string> vector3Names)
     {
         cName = newName;
