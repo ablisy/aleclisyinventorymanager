@@ -23,3 +23,4 @@ Things left to do:
 Add the ability to create a prefab for each item.
 Clean up the backend so that it is easier to add new categories.
 Make the Window prettier (this often takes a little while so I haven't done it here)
+Scrub the inputs so no "Illegal" entries can be made.
